@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>NailStudio — Бежевый маникюрный салон</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- НАВИГАЦИЯ -->
+<nav class="main-nav">
+    <div class="nav-container">
+        <a href="#" class="logo">💅 NailStudio</a>
+        <ul class="nav-menu">
+            <li><a href="#services" class="nav-link">Услуги</a></li>
+            <li><a href="#masters" class="nav-link">Мастера</a></li>
+            <li><a href="#reviews" class="nav-link">Отзывы</a></li>
+            <li><a href="#contacts" class="nav-link">Контакты</a></li>
+        </ul>
+        <div class="cart-icon" id="cartIcon">
+            🛒 Корзина (<span id="cartCount">0</span>)
+        </div>
+    </div>
+</nav>
+
+<!-- ГЛАВНЫЙ ЭКРАН -->
+<section class="hero">
+    <div class="container">
+        <h1>Идеальный маникюр</h1>
+        <p>Студия нежного маникюра. Бесплатное покрытие при первом визите!</p>
+        <button class="btn-primary" onclick="document.getElementById('services').scrollIntoView({behavior:'smooth'})">Выбрать услугу</button>
+    </div>
+</section>
+
+<!-- УСЛУГИ + ФИЛЬТР -->
+<div class="container" id="services">
+    <h2 class="section-title">Наши процедуры</h2>
+    <div class="filter-buttons">
+        <button class="filter-btn active" data-filter="all">Все</button>
+        <button class="filter-btn" data-filter="manicure">Маникюр</button>
+        <button class="filter-btn" data-filter="pedicure">Педикюр</button>
+        <button class="filter-btn" data-filter="design">Дизайн</button>
+    </div>
+    <div class="services-container" id="servicesContainer"></div>
+</div>
+
+<!-- МАСТЕРА -->
+<div class="container" id="masters">
+    <h2 class="section-title">Наши мастера</h2>
+    <div class="masters-container" id="mastersContainer"></div>
+</div>
+
+<!-- ПРЕИМУЩЕСТВА -->
+<div class="container">
+    <h2 class="section-title">Почему мы</h2>
+    <div class="features-grid">
+        <div class="feature"><div class="feature-icon">🧼</div><h3>Стерильность</h3><p>Одноразовые инструменты, автоклавирование</p></div>
+        <div class="feature"><div class="feature-icon">🏆</div><h3>Опыт 5+ лет</h3><p>Дипломированные мастера</p></div>
+        <div class="feature"><div class="feature-icon">📍</div><h3>Центр города</h3><p>Рядом с метро</p></div>
+        <div class="feature"><div class="feature-icon">💸</div><h3>Цены фикс</h3><p>Без скрытых доплат</p></div>
+    </div>
+</div>
+
+<!-- ОТЗЫВЫ -->
+<div class="container" id="reviews">
+    <h2 class="section-title">Отзывы клиентов</h2>
+    <div class="reviews-container" id="reviewsContainer"></div>
+</div>
+
+<!-- ФОРМА ЗАЯВКИ -->
+<div class="container">
+    <div class="callback-form">
+        <h3>Оставьте заявку</h3>
+        <p>Мы перезвоним за 10 минут</p>
+        <form id="callbackForm">
+            <input type="text" id="userName" placeholder="Ваше имя" required>
+            <input type="tel" id="userPhone" placeholder="Телефон" required>
+            <textarea rows="2" placeholder="Комментарий"></textarea>
+            <button type="submit" class="submit-btn">Отправить</button>
+        </form>
+        <div id="formStatus"></div>
+    </div>
+</div>
+
+<!-- КОНТАКТЫ -->
+<div class="contacts" id="contacts">
+    <p>📍 г. Москва, ул. Ногтевая, 15 | ☎️ +7 (495) 123-45-67 | ✉️ hello@nailstudio.ru</p>
+    <p>Мы в соцсетях: 
+        <a href="#">Instagram</a> | 
+        <a href="#">Telegram</a> | 
+        <a href="#">VK</a>
+    </p>
+    <p>© NailStudio — бежевый маникюрный салон</p>
+</div>
+
+<!-- МОДАЛЬНАЯ КОРЗИНА -->
+<div id="cartModal" class="cart-modal">
+    <div class="cart-modal-content">
+        <span class="close" id="closeModal">&times;</span>
+        <h3>Ваша запись</h3>
+        <div id="cartItemsList"></div>
+        <div class="cart-total">Итого: <span id="cartTotalPrice">0</span> ₽</div>
+        <button id="recordBtn">Записаться</button>
+    </div>
+</div>
+<div id="toastMessage" class="toast"></div>
+
+<script>
+    // ---------- ДАННЫЕ УСЛУГ (ЗАМЕНИ ССЫЛКИ НА СВОИ КАРТИНКИ) ----------
+    const servicesData = [
+        { id: 0, name: "Классический маникюр", category: "manicure", price: 800, desc: "Обработка кутикулы, придание формы, покрытие лаком", img: "img/service1.jpg.jpg" },
+        { id: 1, name: "Аппаратный маникюр", category: "manicure", price: 950, desc: "Безопасный метод для чувствительной кутикулы", img: "img/service5.jpg" },
+        { id: 2, name: "Педикюр (комплекс)", category: "pedicure", price: 1600, desc: "Уход за стопами, покрытие гель-лаком", img: "img/service2.jpg.jpg" },
+        { id: 3, name: "Дизайн ногтей (1 рука)", category: "design", price: 600, desc: "Стразы, слайдеры, роспись, фольга", img: "img/service3.jpg.jpg" },
+        { id: 4, name: "Наращивание гелем", category: "manicure", price: 2100, desc: "Моделирование любой формы", img: "img/service4.jpg.jpg" }
+    ];
+
+    // Мастера (замени фото на свои из папки img/)
+    const masters = [
+        { name: "Анна К.", spec: "Топ-мастер по дизайну", photo: "img/master1.jpg.jpg" },
+        { name: "Елена В.", spec: "Маникюр + педикюр", photo: "img/master2.jpg.jpg" },
+        { name: "Кирилл С.", spec: "Наращивание и гель-лак", photo: "img/master3.jpg.jpg" }
+    ];
+
+    // Отзывы (аватарки замени)
+    const reviews = [
+        { name: "Ольга", text: "Отличный салон! Делала маникюр у Анны – результат превзошёл ожидания.", stars: 5, avatar: "img/review1.jpg" },
+        { name: "Юлия", text: "Очень вежливый персонал, записалась за час до закрытия, приняли.", stars: 5, avatar: "img/review2.jpg" }
+    ];
+
+    // ---------- КОРЗИНА ----------
+    let cart = [];
+    function loadCart() { const saved = localStorage.getItem('nailCart'); cart = saved ? JSON.parse(saved) : []; updateCartUI(); }
+    function saveCart() { localStorage.setItem('nailCart', JSON.stringify(cart)); }
+    function addToCart(id) {
+        const existing = cart.find(i => i.id === id);
+        if (existing) existing.quantity++;
+        else cart.push({ id, quantity: 1 });
+        saveCart();
+        updateCartUI();
+        showToast(`${servicesData[id].name} добавлена в запись`);
+        const cartElem = document.getElementById('cartIcon');
+        cartElem.classList.add('bump');
+        setTimeout(() => cartElem.classList.remove('bump'), 400);
+    }
+    function updateCartUI() {
+        const countSpan = document.getElementById('cartCount');
+        const totalItems = cart.reduce((sum, i) => sum + i.quantity, 0);
+        countSpan.innerText = totalItems;
+        renderCartModal();
+    }
+    function renderCartModal() {
+        const container = document.getElementById('cartItemsList');
+        if (!container) return;
+        if (cart.length === 0) {
+            container.innerHTML = '<p>Вы ещё ничего не выбрали</p>';
+            document.getElementById('cartTotalPrice').innerText = '0';
+            return;
+        }
+        let total = 0;
+        let html = '';
+        cart.forEach(item => {
+            const service = servicesData[item.id];
+            const sum = service.price * item.quantity;
+            total += sum;
+            html += `<div class="cart-item"><span>${service.name} x ${item.quantity}</span><span>${sum} ₽</span><button onclick="removeFromCart(${item.id})">🗑️</button></div>`;
+        });
+        container.innerHTML = html;
+        document.getElementById('cartTotalPrice').innerText = total;
+    }
+    function removeFromCart(id) {
+        const idx = cart.findIndex(i => i.id === id);
+        if (idx !== -1) {
+            if (cart[idx].quantity > 1) cart[idx].quantity--;
+            else cart.splice(idx, 1);
+            saveCart();
+            updateCartUI();
+        }
+    }
+    function clearCart() { cart = []; saveCart(); updateCartUI(); }
+    function showToast(msg) {
+        const toast = document.getElementById('toastMessage');
+        toast.innerText = msg;
+        toast.classList.add('show');
+        setTimeout(() => toast.classList.remove('show'), 2000);
+    }
+
+    // ---------- ОТРИСОВКА КАРТОЧЕК ----------
+    function renderServices() {
+        const container = document.getElementById('servicesContainer');
+        container.innerHTML = '';
+        servicesData.forEach((s, idx) => {
+            const card = document.createElement('div');
+            card.className = 'service-card';
+            card.setAttribute('data-category', s.category);
+            card.innerHTML = `
+                <img src="${s.img}" alt="${s.name}" class="service-img" onerror="this.src='https://via.placeholder.com/400?text=Нет+фото'">
+                <div class="service-info">
+                    <h3 class="service-title">${s.name}</h3>
+                    <p class="service-desc">${s.desc}</p>
+                    <span class="service-price">${s.price} ₽</span>
+                    <button class="service-btn" data-id="${idx}">Записаться</button>
+                </div>
+            `;
+            container.appendChild(card);
+        });
+        document.querySelectorAll('.service-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = parseInt(btn.getAttribute('data-id'));
+                addToCart(id);
+            });
+        });
+    }
+
+    function renderMasters() {
+        const container = document.getElementById('mastersContainer');
+        container.innerHTML = masters.map(m => `
+            <div class="master-card">
+                <img src="${m.photo}" class="master-photo" onerror="this.src='https://via.placeholder.com/150'">
+                <h3 class="master-name">${m.name}</h3>
+                <p class="master-spec">${m.spec}</p>
+            </div>
+        `).join('');
+    }
+
+    function renderReviews() {
+        const container = document.getElementById('reviewsContainer');
+        container.innerHTML = reviews.map(r => `
+            <div class="review">
+                <img src="${r.avatar}" class="review-avatar" onerror="this.src='https://via.placeholder.com/60'">
+                <div><b>${r.name}</b> <span class="stars">${'★'.repeat(r.stars)}</span></div>
+                <p class="review-text">“${r.text}”</p>
+            </div>
+        `).join('');
+    }
+
+    // ---------- ФИЛЬТР ----------
+    function setupFilter() {
+        const btns = document.querySelectorAll('.filter-btn');
+        btns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                btns.forEach(b => b.classList.remove('active'));
+                btn.classList.add('active');
+                const filter = btn.getAttribute('data-filter');
+                document.querySelectorAll('.service-card').forEach(card => {
+                    if (filter === 'all' || card.getAttribute('data-category') === filter) {
+                        card.style.display = '';
+                    } else {
+                        card.style.display = 'none';
+                    }
+                });
+            });
+        });
+    }
+
+    // ---------- МОДАЛЬНОЕ ОКНО ----------
+    const modal = document.getElementById('cartModal');
+    const cartIconDiv = document.getElementById('cartIcon');
+    const closeModal = document.getElementById('closeModal');
+    cartIconDiv.onclick = () => { modal.style.display = 'flex'; renderCartModal(); };
+    closeModal.onclick = () => modal.style.display = 'none';
+    window.onclick = (e) => { if (e.target === modal) modal.style.display = 'none'; };
+    document.getElementById('recordBtn').onclick = () => {
+        if (cart.length === 0) { showToast('Выберите услуги'); return; }
+        showToast('Спасибо! Мы свяжемся с вами для подтверждения записи.');
+        clearCart();
+        modal.style.display = 'none';
+    };
+
+    // ФОРМА
+    document.getElementById('callbackForm').addEventListener('submit', (e) => {
+        e.preventDefault();
+        const name = document.getElementById('userName').value;
+        showToast(`${name}, спасибо! Мастер перезвонит скоро.`);
+        e.target.reset();
+    });
+
+    // ПЛАВНЫЙ СКРОЛЛ
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', (e) => {
+            e.preventDefault();
+            const targetId = link.getAttribute('href').substring(1);
+            const target = document.getElementById(targetId);
+            if (target) target.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+
+    // ЗАПУСК
+    loadCart();
+    renderServices();
+    renderMasters();
+    renderReviews();
+    setupFilter();
+</script>
+</body>
+</html>

@@ -1,0 +1,445 @@
+/* ---------- ОБЩИЕ СТИЛИ ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Montserrat', 'Segoe UI', sans-serif;
+    background: lch(97.61% 5.38 77.63);  /* тёплый бежевый фон */
+    color: hsl(46, 66%, 91%);
+    line-height: 1.5;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 40px;
+    color: hsl(20, 57%, 85%);
+    font-weight: 600;
+}
+
+.section-title::after {
+    content: '';
+    width: 80px;
+    height: 3px;
+    background: #e7c8b0;
+    display: block;
+    margin: 12px auto 0;
+    border-radius: 10px;
+}
+
+/* ---------- НАВИГАЦИЯ ---------- */
+.main-nav {
+    background: rgba(255, 248, 240, 0.96);
+    backdrop-filter: blur(8px);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.03);
+}
+.nav-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    padding: 12px 20px;
+}
+.logo {
+    font-size: 1.7rem;
+    font-weight: bold;
+    color: #b87c5e;
+    text-decoration: none;
+}
+.nav-menu {
+    display: flex;
+    gap: 25px;
+    list-style: none;
+}
+.nav-link {
+    text-decoration: none;
+    color: #5e4b44;
+    font-weight: 500;
+    transition: 0.3s;
+}
+.nav-link:hover {
+    color: #d6a17d;
+}
+.cart-icon {
+    background: #f5e4d8;
+    padding: 8px 15px;
+    border-radius: 40px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: 0.3s;
+}
+.cart-icon:hover {
+    background: #e2c6b2;
+}
+.cart-icon.bump {
+    animation: cartBump 0.4s ease;
+}
+@keyframes cartBump {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+    100% { transform: scale(1); }
+}
+
+/* ---------- ГЛАВНЫЙ ЭКРАН (HERO) ---------- */
+.hero {
+    background: linear-gradient(135deg, #faf0e6, #fff4eb), url('img/hero-bg.jpg.jpg') no-repeat center center/cover;
+    background-blend-mode: overlay;
+    padding: 100px 20px;
+    text-align: center;
+    color: #4a3530;
+}
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 15px;
+}
+.hero p {
+    font-size: 1.2rem;
+    margin-bottom: 30px;
+}
+.btn-primary {
+    background: #b87c5e;
+    color: white;
+    border: none;
+    padding: 14px 35px;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.btn-primary:hover {
+    background: #9e684c;
+}
+
+/* ---------- ФИЛЬТР ---------- */
+.filter-buttons {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin: 30px 0 40px;
+}
+.filter-btn {
+    background: #f3e8e0;
+    border: none;
+    padding: 8px 22px;
+    border-radius: 40px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: 0.3s;
+}
+.filter-btn.active, .filter-btn:hover {
+    background: #b87c5e;
+    color: white;
+}
+
+/* ---------- КАРТОЧКИ УСЛУГ ---------- */
+.services-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 30px;
+    margin-bottom: 60px;
+}
+.service-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+    transition: all 0.3s;
+}
+.service-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+}
+.service-img {
+    width: 100%;
+    height: 220px;
+    object-fit: cover;
+    background: #ede0d4;
+}
+.service-info {
+    padding: 20px;
+}
+.service-title {
+    font-size: 1.3rem;
+    margin-bottom: 8px;
+    color: #4e3e3a;
+}
+.service-desc {
+    color: #8c7168;
+    font-size: 0.9rem;
+    margin-bottom: 12px;
+}
+.service-price {
+    font-weight: bold;
+    color: #b87c5e;
+    font-size: 1.3rem;
+}
+.service-btn {
+    background: #f5e4d8;
+    border: none;
+    padding: 8px 18px;
+    border-radius: 30px;
+    margin-top: 12px;
+    width: 100%;
+    font-weight: bold;
+    cursor: pointer;
+    transition: 0.2s;
+}
+.service-btn:hover {
+    background: #e2c6b2;
+    color: #4e3e3a;
+}
+
+/* ---------- МАСТЕРА ---------- */
+.masters-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 30px;
+    margin-bottom: 60px;
+}
+.master-card {
+    background: white;
+    border-radius: 30px;
+    width: 260px;
+    text-align: center;
+    padding: 20px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.03);
+}
+.master-photo {
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 15px;
+    border: 4px solid #f5e4d8;
+}
+.master-name {
+    font-size: 1.2rem;
+    margin-bottom: 5px;
+}
+.master-spec {
+    color: #b87c5e;
+    font-weight: 500;
+}
+
+/* ---------- ПРЕИМУЩЕСТВА ---------- */
+.features-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 25px;
+    justify-content: center;
+    margin: 40px 0;
+}
+.feature {
+    background: white;
+    border-radius: 20px;
+    padding: 25px;
+    width: 240px;
+    text-align: center;
+}
+.feature-icon {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+}
+
+/* ---------- ОТЗЫВЫ ---------- */
+.reviews-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: center;
+    margin: 40px 0;
+}
+.review {
+    background: white;
+    border-radius: 25px;
+    width: 300px;
+    padding: 20px;
+}
+.review-avatar {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    object-fit: cover;
+    float: left;
+    margin-right: 15px;
+}
+.review-text {
+    font-style: italic;
+    margin-bottom: 10px;
+}
+.stars {
+    color: #e7a977;
+}
+
+/* ---------- ФОРМА ---------- */
+.callback-form {
+    background: #fffbf6;
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 35px;
+    border-radius: 40px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.02);
+}
+.callback-form input, .callback-form textarea {
+    width: 100%;
+    padding: 12px;
+    margin: 10px 0;
+    border: 1px solid #f0dfd2;
+    border-radius: 30px;
+    font-family: inherit;
+}
+.submit-btn {
+    background: #b87c5e;
+    color: white;
+    border: none;
+    padding: 12px 30px;
+    border-radius: 40px;
+    cursor: pointer;
+}
+
+/* ---------- КОНТАКТЫ ---------- */
+.contacts {
+    background: #f0e2d6;
+    color: #5e4b44;
+    padding: 40px 20px;
+    text-align: center;
+}
+.contacts a {
+    color: #b87c5e;
+    margin: 0 10px;
+}
+
+/* ---------- МОДАЛЬНАЯ КОРЗИНА ---------- */
+.cart-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.4);
+    z-index: 2000;
+    justify-content: center;
+    align-items: center;
+}
+.cart-modal-content {
+    background: white;
+    width: 90%;
+    max-width: 500px;
+    border-radius: 30px;
+    padding: 25px;
+    position: relative;
+}
+.close {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    font-size: 28px;
+    cursor: pointer;
+}
+.cart-item {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #f5e4d8;
+    padding: 10px 0;
+}
+.cart-total {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-align: right;
+    margin-top: 15px;
+}
+#recordBtn {
+    background: #b87c5e;
+    color: white;
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 40px;
+    margin-top: 15px;
+    font-size: 1rem;
+}
+.toast {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4e6b4b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 50px;
+    z-index: 3000;
+    opacity: 0;
+    transition: 0.3s;
+}
+.toast.show {
+    opacity: 1;
+}
+
+/* Дополнительная адаптация для телефонов */
+@media (max-width: 768px) {
+    .nav-container {
+        flex-direction: column;
+        gap: 12px;
+    }
+    .nav-menu {
+        gap: 15px;
+    }
+    .hero h1 {
+        font-size: 2rem;
+    }
+    .hero p {
+        font-size: 1rem;
+    }
+    .section-title {
+        font-size: 1.8rem;
+    }
+    .services-container {
+        grid-template-columns: 1fr; /* на телефоне по 1 карточке */
+    }
+    .filter-buttons {
+        gap: 8px;
+    }
+    .filter-btn {
+        padding: 6px 14px;
+        font-size: 0.8rem;
+    }
+    .callback-form {
+        margin: 30px 20px;
+        padding: 20px;
+    }
+    .contacts {
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero {
+        padding: 60px 20px;
+    }
+    .hero h1 {
+        font-size: 1.6rem;
+    }
+    .nav-menu {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    .cart-icon {
+        font-size: 0.9rem;
+    }
+}
