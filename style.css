@@ -1,3 +1,4 @@
+
 /* ---------- ОБЩИЕ СТИЛИ ---------- */
 * {
     margin: 0;
@@ -110,7 +111,7 @@ body {
 }
 .btn-primary {
     background: #b87c5e;
-    color: white;
+    color: #fdf0e4;
     border: none;
     padding: 14px 35px;
     border-radius: 50px;
@@ -187,7 +188,7 @@ body {
     font-size: 1.3rem;
 }
 .service-btn {
-    background: #f5e4d8;
+    background: hsl(24, 69%, 90%);
     border: none;
     padding: 8px 18px;
     border-radius: 30px;
@@ -441,5 +442,43 @@ body {
     }
     .cart-icon {
         font-size: 0.9rem;
+    }
+}
+
+
+/* стили для блока подтверждения */
+#orderConfirmation {
+    margin-top: 20px;
+    border-top: 1px solid #f0dfd2;
+    padding-top: 15px;
+}
+.telegram-contact a {
+    display: inline-block;
+    margin: 5px;
+}
+
+
+
+/* Блок карты */
+.map-section {
+    padding: 40px 20px 20px;
+    background: #fef8f0;
+}
+.map-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    border-radius: 30px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.map-container iframe {
+    display: block;
+    width: 100%;
+    height: 350px;
+    border: none;
+}
+@media (max-width: 768px) {
+    .map-container iframe {
+        height: 250px;
     }
 }
