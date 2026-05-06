@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html lang="ru">
 <head>
+    
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NailStudio — Бежевый маникюрный салон</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
 
 <!-- НАВИГАЦИЯ -->
 <nav class="main-nav">
@@ -83,6 +85,19 @@
     </div>
 </div>
 
+<!-- Блок с картой -->
+<div class="map-section">
+    <h2 class="section-title">Как нас найти</h2>
+    <div class="map-container">
+        <iframe 
+            src="https://yandex.ru/map-widget/v1/?um=constructor%3A5f0e3b1c6a5b5c5d5e5f5g5h5i5j5k5l5m5n5o5p&source=constructor" 
+            width="100%" 
+            height="400" 
+            frameborder="0">
+        </iframe>
+    </div>
+</div>
+
 <!-- КОНТАКТЫ -->
 <div class="contacts" id="contacts">
     <p>📍 г. Москва, ул. Ногтевая, 15 | ☎️ +7 (495) 123-45-67 | ✉️ hello@nailstudio.ru</p>
@@ -94,17 +109,31 @@
     <p>© NailStudio — бежевый маникюрный салон</p>
 </div>
 
-<!-- МОДАЛЬНАЯ КОРЗИНА -->
+<!-- МОДАЛЬНАЯ КОРЗИНА (С КОНТАКТАМИ) -->
 <div id="cartModal" class="cart-modal">
     <div class="cart-modal-content">
         <span class="close" id="closeModal">&times;</span>
         <h3>Ваша запись</h3>
         <div id="cartItemsList"></div>
         <div class="cart-total">Итого: <span id="cartTotalPrice">0</span> ₽</div>
-        <button id="recordBtn">Записаться</button>
+        
+        <!-- Блок с контактами для подтверждения -->
+        <div id="orderConfirmation" style="display: none;">
+            <p style="text-align: center; margin: 20px 0 10px;">✅ Спасибо за заказ!</p>
+            <p style="text-align: center;">Пожалуйста, свяжитесь с нами для подтверждения записи:</p>
+            <div style="display: flex; justify-content: center; gap: 20px; margin: 15px 0;">
+                <a href="tel:+71234567890" style="background: #b87c5e; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none;">📞 Позвонить</a>
+                <a href="https://t.me/ваш_логин" target="_blank" style="background: #29a9e1; color: white; padding: 10px 20px; border-radius: 40px; text-decoration: none;">💬 Telegram</a>
+            </div>
+            <button id="closeAfterConfirm" class="submit-btn" style="background: #9e684c;">Закрыть</button>
+        </div>
+
+        <!-- Кнопка, которая показывает контакты (вместо отправки) -->
+        <div id="recordButtonBlock">
+            <button id="recordBtn" class="submit-btn">Оформить запись</button>
+        </div>
     </div>
 </div>
-<div id="toastMessage" class="toast"></div>
 
 <script>
     // ---------- ДАННЫЕ УСЛУГ (ЗАМЕНИ ССЫЛКИ НА СВОИ КАРТИНКИ) ----------
@@ -293,6 +322,28 @@
     renderMasters();
     renderReviews();
     setupFilter();
+
+    // Оформление записи (показываем контакты)
+document.getElementById('recordBtn').onclick = () => {
+    if (cart.length === 0) {
+        showToast('Выберите хотя бы одну услугу');
+        return;
+    }
+    // Прячем кнопку "Оформить запись"
+    document.getElementById('recordButtonBlock').style.display = 'none';
+    // Показываем блок с контактами
+    document.getElementById('orderConfirmation').style.display = 'block';
+    // Не очищаем корзину, чтобы клиент мог скорректировать заказ, если передумает
+};
+
+// Кнопка "Закрыть" внутри блока контактов
+document.getElementById('closeAfterConfirm').onclick = () => {
+    modal.style.display = 'none';
+    // Опционально: очистить корзину или оставить — как хочешь. Лучше оставить, чтобы клиент мог изменить состав.
+    // Если хочешь очищать — раскомментируй следующую строку:
+    // clearCart();
+    // Но тогда после закрытия окна корзина станет пустой. Решай сама.
+};
 </script>
 </body>
 </html>
